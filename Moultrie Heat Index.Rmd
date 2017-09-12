@@ -1,0 +1,57 @@
+---
+title: "HIAMI"
+author: "Valerie Mac"
+date: "September 12, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r m1}
+summary(m1)
+```
+```{r}
+# merge two data frames by ID
+m1m2 <- rbind(m1,m2)
+```
+```{r}
+library(weathermetrics)
+```
+```{r}
+ m1m2HI<-data.frame(m1m2)
+```
+```{r}
+#Calculate HI on m1m2 (the combined moultrie weather datasets)
+m1m2HI$HI <-heat.index(t = m1m2HI$Air.Temperature.C.,
+                         rh = m1m2HI$Relative.Humidity...,
+                         temperature.metric = "celsius",
+                         output.metric = "celsius",
+                         round=0)
+```
+```{r}
+summary(m1m2HI) 
+```
+#Julian Days of June13th-165-182 for 2016
+```{r}
+# based on variable values
+maxHI <- m1m2HI[ which(m1m2HI$Julian.Day==>="165","166","167","168","172","173","174","175")]
+```
+```{r}
+# using subset function 
+subm1m2HI <- subset(m1m2HI,Julian.Day >= 165 | Julian.Day < 169, Julian.Day >= 172 | Julian.Day < 176, 
+select=c(Julian.Day,Air.Temperature.C.,Relative.Humidity...,HI))
+```
+
+
